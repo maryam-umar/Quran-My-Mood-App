@@ -1,12 +1,11 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import sqlite3
 import random
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  
+CORS(app)
 
-# Database name
 Database = 'verses.db'
 
 def get_random_verse_by_mood(mood, db_name=Database):
@@ -23,13 +22,28 @@ def get_random_verse_by_mood(mood, db_name=Database):
         print(f"Database error: {e}")
         return None
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/results')
+def results():
+    mood = request.args.get('mood', '').capitalize()
+    if not mood:
+        return render_template('result.html', error="No mood specified")
+    
+    verse = get_random_verse_by_mood(mood)
+    if verse:
+        return render_template('result.html', mood=mood, arabic=verse[0], translation=verse[1])
+    else:
+        return render_template('result.html', error=f"No verses found for mood: {mood}")
+
 @app.route('/api/verse', methods=['GET'])
 def get_verse():
     """API endpoint to get a random verse based on mood."""
     mood = request.args.get('mood', '').capitalize()
     if not mood:
         return jsonify({"error": "Please provide a mood parameter."}), 400
-
     verse = get_random_verse_by_mood(mood)
     if verse:
         return jsonify({
