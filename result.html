@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/styles.css"> 
+    <link rel="stylesheet" href="static/css/styles.css">
     <title>Your Quran Verse</title>
 </head>
 <body>
@@ -14,20 +14,21 @@
         <div id="translation"></div>
     </div>
 
-    <a href="/">Try another mood</a>
+    <a href="index.html">Try another mood</a>
     
     <script>
-        async function fetchVerse() {
+        function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
-            const mood = params.get('mood');
+            return {
+                mood: params.get('mood'),
+                arabic: params.get('arabic'),
+                translation: params.get('translation'),
+                error: params.get('error')
+            };
+        }
 
-            if (!mood) {
-                document.getElementById('header').innerHTML = '<h1>No mood specified</h1>';
-                return;
-            }
-
+        async function fetchVerse(mood) {
             try {
-                // Make sure to use the correct API URL
                 const response = await fetch(`https://amaluomar.pythonanywhere.com/api/verse?mood=${mood}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -52,8 +53,18 @@
             }
         }
 
-        window.onload = fetchVerse;
+        function displayResults() {
+            const { mood } = getQueryParams();
+            if (mood) {
+                fetchVerse(mood);
+            } else {
+                document.getElementById('header').innerHTML = '<h1>No mood specified</h1>';
+            }
+        }
+
+        window.onload = displayResults;
     </script>
 </body>
 </html>
+
 

@@ -1,10 +1,11 @@
 from flask import Flask, jsonify, request, render_template
+import requests
 import sqlite3
 import random
-import requests
 
 app = Flask(__name__)
 
+# Your database file
 Database = 'verses.db'
 
 def get_random_verse_by_mood(mood, db_name=Database):
