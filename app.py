@@ -1,10 +1,9 @@
 from flask import Flask, jsonify, request, render_template
 import sqlite3
 import random
-from flask_cors import CORS
+import requests
 
 app = Flask(__name__)
-CORS(app)
 
 Database = 'verses.db'
 
@@ -32,11 +31,17 @@ def results():
     if not mood:
         return render_template('result.html', error="No mood specified")
     
-    verse = get_random_verse_by_mood(mood)
-    if verse:
-        return render_template('result.html', mood=mood, arabic=verse[0], translation=verse[1])
+    # Fetch verse from PythonAnywhere API
+    api_url = f"https://amaluomar.pythonanywhere.com/api/verse?mood={mood}"
+    response = requests.get(api_url)
+    if response.status_code == 200:
+        data = response.json()
+        if 'error' in data:
+            return render_template('result.html', error=data['error'])
+        else:
+            return render_template('result.html', mood=mood, arabic=data['arabic'], translation=data['translation'])
     else:
-        return render_template('result.html', error=f"No verses found for mood: {mood}")
+        return render_template('result.html', error="Failed to fetch data from the API.")
 
 @app.route('/api/verse', methods=['GET'])
 def get_verse():
