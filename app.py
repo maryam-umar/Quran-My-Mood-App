@@ -1,8 +1,10 @@
 from flask import Flask, jsonify, request
 import sqlite3
 import random
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 Database = 'verses.db'
 
@@ -19,6 +21,47 @@ def get_random_verse_by_mood(mood, db_name=Database):
     except sqlite3.Error as e:
         print(f"Database error: {e}")
         return None
+@app.route('/results')
+def results():
+    mood = request.args.get('mood', '').capitalize()
+    if not mood:
+        return 'No mood specified', 400
+    
+    verse = get_random_verse_by_mood(mood)
+    if verse:
+        arabic, translation = verse
+        return f'''
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="/static/css/styles.css">
+            <title>Your Quran Verse</title>
+        </head>
+        <body>
+            <div id="header">
+                <h1>Your Quran Verse for "{mood}"</h1>
+            </div>
+            
+            <div id="verse-container">
+                <div id="arabic-verse">
+                    <h2>Arabic:</h2>
+                    <p dir="rtl">{arabic}</p>
+                </div>
+                
+                <div id="translation">
+                    <h2>Translation:</h2>
+                    <p>{translation}</p>
+                </div>
+            </div>
+
+            <a href="/">Try another mood</a>
+        </body>
+        </html>
+        '''
+    else:
+        return f'No verses found for mood: {mood}', 404
 
 @app.route('/api/verse', methods=['GET'])
 def get_verse():
@@ -26,7 +69,6 @@ def get_verse():
     mood = request.args.get('mood', '').capitalize()
     if not mood:
         return jsonify({"error": "Please provide a mood parameter."}), 400
-
     verse = get_random_verse_by_mood(mood)
     if verse:
         return jsonify({
@@ -38,5 +80,4 @@ def get_verse():
         return jsonify({"error": f"No verses found for mood: {mood}"}), 404
 
 if __name__ == '__main__':
-    app.run(debug=False)  
-
+    app.run(debug=False)
