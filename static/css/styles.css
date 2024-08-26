@@ -1,0 +1,292 @@
+/* Defining custom fonts */
+
+@font-face {
+    font-family: 'Lebran';
+    src: url('../fonts/lebran.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Arabian Nights';
+    src: url('../fonts/Abiyells.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Quran';
+    src: url('../fonts/Al\ Qalam\ Kolkatta\ Quranic\ font\ Regular.ttf') format('truetype');
+}
+
+/* Body Styling */
+
+body {
+    background-image: url('../images/jungle.gif');
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Main heading Styling */
+
+h1 {
+    font-family: 'Arabian Nights'; 
+    font-weight: normal;
+    font-size: 4rem;
+    text-shadow: 1px 1px 1px #042810e5;
+    padding: 10px 0;
+    text-align: center;
+    color: #ffffff;
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
+}
+
+/* Form Container Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+    background-color: rgba(72, 151, 8, 0.332); 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px #123601be;
+    width: 100%;
+    max-width: 600px;
+}
+
+label {
+    font-size: 3rem;
+    color: #ffffff;
+    display: block;
+    margin-bottom: 8px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    font-family: system-ui;
+
+}
+
+input[type="submit"] {
+    background-color: rgba(77, 154, 14, 0.767);
+    color: white;
+    font-family: system-ui;
+    font-weight: bold;
+    font-variant: small-caps;
+    font-size: 1rem;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    width: 25%;
+}
+
+input[type="submit"]:hover {
+    background-color: rgba(30, 63, 4, 0.767);
+}
+
+p {
+    font-size: 1rem;
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+}
+
+p[style="color: red;"] {
+    color: rgb(255, 0, 0);
+    margin-top: 10px;
+}
+
+/** Results Page **/
+#header {
+color: white;
+text-align: center;
+padding: 20px;
+border-radius: 8px;
+margin-bottom: 20px;
+}
+
+#verse-container {
+    align-items: center;
+    max-width: 90%;
+    overflow-wrap: break-word;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(72, 151, 8, 0.332); 
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px #123601be;
+}
+
+/* Arabic verse styling */
+#header h1 {
+    font-size: 4rem; 
+    color: #ffffff; 
+    text-align: center; 
+    margin: 20px 0; 
+}
+
+#arabic-verse {
+    font-family: 'Qelrage';
+    margin-bottom: 20px;
+    font-variant: small-caps;
+    color: #fff;
+}
+
+#arabic-verse p {
+    font-family: 'Quran';
+    font-size: 1.5rem;
+    text-align: right;
+}
+
+#translation {
+    margin-bottom: 20px;
+}
+
+#translation h2 {
+    color: #fff;
+    font-variant: small-caps;
+    font-family: 'Qelrage';
+    margin-bottom: 10px;
+}
+
+#translation p {
+    font-size: 1.2rem;
+}
+
+/* Link styling */
+a {
+    display: inline-block;
+    margin-top: 20px;
+    color: white;
+    font-family: system-ui;
+    font-weight: bold;
+    font-variant: small-caps;
+    font-size: 1rem;
+    background-color: rgba(77, 154, 14, 0.767);
+    text-decoration: none;
+    border-radius: 15px;
+    padding: 10px 15px;
+    text-align: center;
+}
+a:hover {
+    background-color: rgba(30, 63, 4, 0.767);
+}
+a.active{
+    background-color: #214619c6;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+label {
+    font-size: 1.2rem;
+    color: #ffffff;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;    
+}
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    font-family: Arial, serif;
+    color: #333;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+}
+option {
+    font-size: 1rem;
+    color: #333;
+    background-color: #ffffff;
+    padding: 10px;
+}
+/* Footer styling */
+
+#site-footer {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin-bottom: 0%;
+    margin-top: 20%;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+#footer-name {
+    font-size: 1rem;
+    margin-top: 2px;
+    margin-bottom: -100px;
+}
+#footer-email {
+    font-variant: small-caps;
+    font-size: 1rem;
+}
+
+#footer-email .email-link {
+    padding: 0.6em 2em;
+    border: none;
+    color:  rgba(77, 154, 14, 0.767);
+    background: none;
+    font-size: 1rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+#footer-email .email-link:hover {
+    color: white;
+    background: none;
+    transform: translateY(-3px);
+}
+
+/* Responsive adjustments for tablets */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2em;
+    }
+    #arabic-verse p, #translation p {
+        font-size: 1rem;
+    }    
+    form {
+        padding: 15px;
+    }    
+    input[type="submit"] {
+        font-size: 14px;
+    }
+}
+/* Responsive adjustments for smaller phones */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5em;
+    }
+    form {
+        width: 90%;
+    }   
+    input[type="submit"] {
+        font-size: 13px;
+    }   
+    #arabic-verse p, #translation p {
+        font-size: 0.9rem;
+    }
+    
+/* Footer Adjustments */
+@media (max-width: 600px) {
+    #site-footer {
+        padding: 10px; 
+        font-size: 14px;}
+}
+}
