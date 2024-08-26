@@ -6,21 +6,38 @@
     <link rel="stylesheet" href="static/css/styles.css"> 
     <title>Quran My Mood</title>
     <script>
-        function redirectToResults() {
+        async function fetchVerse() {
             const mood = document.getElementById('mood').value;
             if (!mood) {
                 alert('Please select a mood.');
                 return;
             }
-
             
-            window.location.href = `result.html?mood=${mood}`;
+            try {
+                const response = await fetch(`https://amaluomar.pythonanywhere.com/api/verse?mood=${mood}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                if (data.error) {
+                    document.getElementById('result').innerHTML = `<p>${data.error}</p>`;
+                } else {
+                    document.getElementById('result').innerHTML = `
+                        <h2>Verse for ${data.mood}</h2>
+                        <p><strong>Arabic:</strong> ${data.arabic}</p>
+                        <p><strong>Translation:</strong> ${data.translation}</p>
+                    `;
+                }
+            } catch (error) {
+                console.error('There was a problem with the fetch operation:', error);
+                document.getElementById('result').innerHTML = `<p>There was an error fetching the verse. Please try again later.</p>`;
+            }
         }
     </script>
 </head>
 <body>
     <h1>Quran My Mood</h1>
-    <form id="mood-form" onsubmit="event.preventDefault(); redirectToResults();">
+    <form id="mood-form" onsubmit="event.preventDefault(); fetchVerse();">
         <label for="mood">What are you feeling?</label>
         <select name="mood" id="mood">
             <option value="">Select a mood</option>
@@ -41,4 +58,3 @@
     </footer>
 </body>
 </html>
-

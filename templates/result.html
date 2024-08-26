@@ -1,12 +1,14 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/styles.css"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"> 
     <title>Your Quran Verse</title>
     <script>
         async function fetchVerse() {
+           
             const params = new URLSearchParams(window.location.search);
             const mood = params.get('mood');
 
@@ -40,19 +42,23 @@
             }
         }
 
+        
         window.onload = fetchVerse;
     </script>
 </head>
 <body>
-    <div id="header"></div>
+    <div id="header">
+    </div>
     
     <div id="verse-container">
-        <div id="arabic-verse"></div>
-        <div id="translation"></div>
+        <div id="arabic-verse">     
+        </div>
+        
+        <div id="translation">
+        </div>
     </div>
 
-    <a href="index.html">Try another mood</a>
+    <a href="/">Try another mood</a>
 </body>
 </html>
-
 
