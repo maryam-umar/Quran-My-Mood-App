@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import sqlite3
 import random
 from flask_cors import CORS
@@ -21,47 +21,22 @@ def get_random_verse_by_mood(mood, db_name=Database):
     except sqlite3.Error as e:
         print(f"Database error: {e}")
         return None
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 @app.route('/results')
 def results():
     mood = request.args.get('mood', '').capitalize()
     if not mood:
-        return 'No mood specified', 400
+        return render_template('result.html', error="No mood specified")
     
     verse = get_random_verse_by_mood(mood)
     if verse:
-        arabic, translation = verse
-        return f'''
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="/static/css/styles.css">
-            <title>Your Quran Verse</title>
-        </head>
-        <body>
-            <div id="header">
-                <h1>Your Quran Verse for "{mood}"</h1>
-            </div>
-            
-            <div id="verse-container">
-                <div id="arabic-verse">
-                    <h2>Arabic:</h2>
-                    <p dir="rtl">{arabic}</p>
-                </div>
-                
-                <div id="translation">
-                    <h2>Translation:</h2>
-                    <p>{translation}</p>
-                </div>
-            </div>
-
-            <a href="/">Try another mood</a>
-        </body>
-        </html>
-        '''
+        return render_template('result.html', mood=mood, arabic=verse[0], translation=verse[1])
     else:
-        return f'No verses found for mood: {mood}', 404
+        return render_template('result.html', error=f"No verses found for mood: {mood}")
 
 @app.route('/api/verse', methods=['GET'])
 def get_verse():
