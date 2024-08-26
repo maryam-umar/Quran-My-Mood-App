@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, jsonify, request
 import sqlite3
 import random
 
@@ -20,20 +20,23 @@ def get_random_verse_by_mood(mood, db_name=Database):
         print(f"Database error: {e}")
         return None
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == 'POST':
-        mood = request.form.get('mood', '').capitalize()
-        if not mood:
-            return render_template('index.html', error="Please select a mood.")
-        
-        verse = get_random_verse_by_mood(mood)
-        if verse:
-            return render_template('result.html', mood=mood, arabic=verse[0], translation=verse[1])
-        else:
-            return render_template('index.index.html', error=f"No verses found for mood: {mood}")
-    
-    return render_template('index.html')
+@app.route('/api/verse', methods=['GET'])
+def get_verse():
+    """API endpoint to get a random verse based on mood."""
+    mood = request.args.get('mood', '').capitalize()
+    if not mood:
+        return jsonify({"error": "Please provide a mood parameter."}), 400
+
+    verse = get_random_verse_by_mood(mood)
+    if verse:
+        return jsonify({
+            "mood": mood,
+            "arabic": verse[0],
+            "translation": verse[1]
+        })
+    else:
+        return jsonify({"error": f"No verses found for mood: {mood}"}), 404
 
 if __name__ == '__main__':
-    app.run(debug=True)  
+    app.run(debug=False)  
+
