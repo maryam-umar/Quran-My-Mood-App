@@ -1,9 +1,12 @@
 from flask import Flask, jsonify, request, render_template
+from flask_cors import CORS
 import requests
 import sqlite3
 import random
 
 app = Flask(__name__)
+
+CORS(app)
 
 # Your database file
 Database = 'verses.db'
